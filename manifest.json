@@ -2,7 +2,7 @@
   "name": "Calculadora de Preço VTC",
   "short_name": "VTC",
   "description": "Calculadora profissional de Preço VTC com deltas",
-  "start_url": "COLE_AQUI_O_LINK_DO_SEU_WEBAPP",
+  "start_url": "https://script.google.com/macros/s/AKfycbz5LWzBDXaD_dK0v7zEkLIc-4EBVuRVasyznw2wuq5DV2yFegp9a76tczEgWPr9um7g/exec",
   "scope": "/",
   "display": "standalone",
   "orientation": "portrait",
