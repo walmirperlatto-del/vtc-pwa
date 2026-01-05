@@ -1,0 +1,12 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "io.github.walmirperlatto_del.twa",
+      "sha256_cert_fingerprints": [
+        "68:A8:37:C8:15:01:02:35:BA:EA:CC:FC:90:C8:87:BA:A7:7D:B8:34:C2:0C:84:B1:CF:15:6A:E4:65:0C:54:11"
+      ]
+    }
+  }
+]
