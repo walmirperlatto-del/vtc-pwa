@@ -6,80 +6,219 @@
   <title>Calculadora VTC</title>
 
   <style>
+    * {
+      box-sizing: border-box;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
     body {
       margin: 0;
-      background: #000;
+      min-height: 100vh;
+      background: #0b0b0b;
       color: #fff;
-      font-family: Arial, sans-serif;
       display: flex;
-      justify-content: center;
       align-items: center;
-      height: 100vh;
+      justify-content: center;
     }
-    .card {
+
+    .container {
       width: 100%;
-      max-width: 400px;
+      max-width: 420px;
+      background: #121212;
+      border-radius: 16px;
       padding: 20px;
-      background: #111;
-      border-radius: 12px;
+      box-shadow: 0 0 25px rgba(0,0,0,0.7);
     }
-    h2 {
+
+    h1 {
       text-align: center;
+      margin-bottom: 20px;
+      font-size: 20px;
+      letter-spacing: 1px;
     }
-    input, button {
+
+    .field {
+      margin-bottom: 14px;
+    }
+
+    label {
+      display: block;
+      font-size: 13px;
+      margin-bottom: 6px;
+      color: #aaa;
+    }
+
+    input {
       width: 100%;
-      padding: 12px;
-      margin-top: 10px;
-      font-size: 16px;
-      border-radius: 6px;
+      padding: 14px;
+      border-radius: 10px;
       border: none;
+      background: #1e1e1e;
+      color: #fff;
+      font-size: 16px;
+      text-align: right;
     }
+
+    input:focus {
+      outline: 2px solid #00e5ff;
+    }
+
+    .buttons {
+      display: flex;
+      gap: 10px;
+      margin-top: 10px;
+    }
+
     button {
-      background: #00e5ff;
+      flex: 1;
+      padding: 14px;
+      border-radius: 10px;
+      border: none;
+      font-size: 15px;
       font-weight: bold;
       cursor: pointer;
     }
-    .resultado {
-      margin-top: 15px;
-      font-size: 15px;
+
+    .btn-calc {
+      background: #00e5ff;
+      color: #000;
+    }
+
+    .btn-clear {
+      background: #333;
+      color: #fff;
+    }
+
+    .result {
+      margin-top: 20px;
+      padding: 16px;
+      background: #1a1a1a;
+      border-radius: 12px;
+      text-align: center;
+      font-size: 18px;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .card {
+      background: #202020;
+      padding: 14px;
+      border-radius: 12px;
+      text-align: center;
+    }
+
+    .card span {
+      display: block;
+      font-size: 12px;
+      color: #aaa;
+      margin-bottom: 6px;
+    }
+
+    .card strong {
+      font-size: 16px;
+    }
+
+    .info {
+      margin-top: 12px;
+      font-size: 11px;
+      text-align: center;
+      color: #777;
     }
   </style>
 </head>
 
 <body>
-  <div class="card">
-    <h2>Calculadora VTC</h2>
 
-    <input id="fechamento" placeholder="Preço de Fechamento">
-    <input id="abertura" placeholder="Preço de Abertura">
-    <input id="ptax" placeholder="PTAX 1">
+  <div class="container">
+    <h1>Calculadora VTC</h1>
 
-    <button onclick="calcular()">Calcular</button>
+    <div class="field">
+      <label>Valor do Preço de Fechamento</label>
+      <input id="fechamento" placeholder="Ex: 5234,50">
+    </div>
 
-    <div class="resultado" id="res"></div>
+    <div class="field">
+      <label>Valor do Preço de Abertura</label>
+      <input id="abertura" placeholder="Ex: 5200.00">
+    </div>
+
+    <div class="field">
+      <label>Valor da PTAX 1</label>
+      <input id="ptax" placeholder="Ex: 5210,25">
+    </div>
+
+    <div class="buttons">
+      <button class="btn-calc" onclick="calcular()">Calcular</button>
+      <button class="btn-clear" onclick="zerar()">Zerar</button>
+    </div>
+
+    <div id="resultado"></div>
+
+    <div class="info">
+      Aceita ponto (.) ou vírgula (,) para casas decimais
+    </div>
   </div>
 
-<script>
-const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbz5LWzBDXaD_dK0v7zEkLIc-4EBVuRVasyznw2wuq5DV2yFegp9a76tczEgWPr9um7g/exec";
+  <script>
+    function normalizar(valor) {
+      return parseFloat(valor.replace(',', '.'));
+    }
 
-function calcular() {
-  const f = document.getElementById("fechamento").value;
-  const a = document.getElementById("abertura").value;
-  const p = document.getElementById("ptax").value;
+    function calcular() {
+      const fechamento = normalizar(document.getElementById("fechamento").value);
+      const abertura   = normalizar(document.getElementById("abertura").value);
+      const ptax       = normalizar(document.getElementById("ptax").value);
 
-  fetch(`${SCRIPT_URL}?fechamento=${f}&abertura=${a}&ptax=${p}`)
-    .then(r => r.json())
-    .then(d => {
-      document.getElementById("res").innerHTML = `
-        VTC: ${d.vtc.toFixed(2)}<br>
-        Delta + : ${d.deltaMais05.toFixed(2)}<br>
-        Delta ++: ${d.deltaMais1.toFixed(2)}<br>
-        Delta - : ${d.deltaMenos05.toFixed(2)}<br>
-        Delta --: ${d.deltaMenos1.toFixed(2)}
+      if (isNaN(fechamento) || isNaN(abertura) || isNaN(ptax)) {
+        alert("Preencha todos os campos corretamente.");
+        return;
+      }
+
+      const vtc = (fechamento + abertura + ptax) / 3;
+
+      const dMais05  = vtc * 1.005;
+      const dMais1   = vtc * 1.01;
+      const dMenos05 = vtc * 0.995;
+      const dMenos1  = vtc * 0.99;
+
+      document.getElementById("resultado").innerHTML = `
+        <div class="result">
+          <strong>VTC</strong><br>${vtc.toFixed(2)}
+        </div>
+
+        <div class="cards">
+          <div class="card">
+            <span>Delta +</span>
+            <strong>${dMais05.toFixed(2)}</strong>
+          </div>
+          <div class="card">
+            <span>Delta ++</span>
+            <strong>${dMais1.toFixed(2)}</strong>
+          </div>
+          <div class="card">
+            <span>Delta -</span>
+            <strong>${dMenos05.toFixed(2)}</strong>
+          </div>
+          <div class="card">
+            <span>Delta --</span>
+            <strong>${dMenos1.toFixed(2)}</strong>
+          </div>
+        </div>
       `;
-    });
-}
-</script>
+    }
+
+    function zerar() {
+      document.getElementById("fechamento").value = "";
+      document.getElementById("abertura").value = "";
+      document.getElementById("ptax").value = "";
+      document.getElementById("resultado").innerHTML = "";
+    }
+  </script>
+
 </body>
 </html>
-
