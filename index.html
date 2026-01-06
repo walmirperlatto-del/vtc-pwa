@@ -2,10 +2,84 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
-  <meta http-equiv="refresh" content="0; url=https://script.google.com/macros/s/AKfycbz5LWzBDXaD_dK0v7zEkLIc-4EBVuRVasyznw2wuq5DV2yFegp9a76tczEgWPr9um7g/exec">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Calculadora VTC</title>
+
+  <style>
+    body {
+      margin: 0;
+      background: #000;
+      color: #fff;
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    .card {
+      width: 100%;
+      max-width: 400px;
+      padding: 20px;
+      background: #111;
+      border-radius: 12px;
+    }
+    h2 {
+      text-align: center;
+    }
+    input, button {
+      width: 100%;
+      padding: 12px;
+      margin-top: 10px;
+      font-size: 16px;
+      border-radius: 6px;
+      border: none;
+    }
+    button {
+      background: #00e5ff;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    .resultado {
+      margin-top: 15px;
+      font-size: 15px;
+    }
+  </style>
 </head>
+
 <body>
-Carregando…
+  <div class="card">
+    <h2>Calculadora VTC</h2>
+
+    <input id="fechamento" placeholder="Preço de Fechamento">
+    <input id="abertura" placeholder="Preço de Abertura">
+    <input id="ptax" placeholder="PTAX 1">
+
+    <button onclick="calcular()">Calcular</button>
+
+    <div class="resultado" id="res"></div>
+  </div>
+
+<script>
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbz5LWzBDXaD_dK0v7zEkLIc-4EBVuRVasyznw2wuq5DV2yFegp9a76tczEgWPr9um7g/exec";
+
+function calcular() {
+  const f = document.getElementById("fechamento").value;
+  const a = document.getElementById("abertura").value;
+  const p = document.getElementById("ptax").value;
+
+  fetch(`${SCRIPT_URL}?fechamento=${f}&abertura=${a}&ptax=${p}`)
+    .then(r => r.json())
+    .then(d => {
+      document.getElementById("res").innerHTML = `
+        VTC: ${d.vtc.toFixed(2)}<br>
+        Delta + : ${d.deltaMais05.toFixed(2)}<br>
+        Delta ++: ${d.deltaMais1.toFixed(2)}<br>
+        Delta - : ${d.deltaMenos05.toFixed(2)}<br>
+        Delta --: ${d.deltaMenos1.toFixed(2)}
+      `;
+    });
+}
+</script>
 </body>
 </html>
+
