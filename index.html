@@ -129,6 +129,22 @@
       text-align: center;
       color: #777;
     }
+
+    /* Valor principal VTC */
+    .result strong {
+    color: #00e5ff;
+    }
+
+    /* Deltas positivos */
+    .card.delta-plus strong {
+    color: #00ff88;
+    }
+
+    /* Deltas negativos */
+    .card.delta-minus strong {
+    color: #ff5c5c;
+    }
+    
   </style>
 </head>
 
@@ -139,17 +155,32 @@
 
     <div class="field">
       <label>Valor do Preço de Fechamento</label>
-      <input id="fechamento" placeholder="Ex: 5234,50">
+      <input 
+        id="fechamento" 
+        placeholder="Ex: 5234,50"
+        inputmode="decimal"
+        pattern="[0-9]*"
+      >
     </div>
 
     <div class="field">
       <label>Valor do Preço de Abertura</label>
-      <input id="abertura" placeholder="Ex: 5200.00">
+      <input 
+        id="abertura" 
+        placeholder="Ex: 5200.00"
+        inputmode="decimal"
+        pattern="[0-9]*"
+      >
     </div>
 
     <div class="field">
       <label>Valor da PTAX 1</label>
-      <input id="ptax" placeholder="Ex: 5210,25">
+      <input 
+        id="ptax" 
+        placeholder="Ex: 5210,25"
+        inputmode="decimal"
+        pattern="[0-9]*"
+      >
     </div>
 
     <div class="buttons">
@@ -192,19 +223,19 @@
         </div>
 
         <div class="cards">
-          <div class="card">
+          <div class="card delta-plus">
             <span>Delta +</span>
             <strong>${dMais05.toFixed(2)}</strong>
           </div>
-          <div class="card">
+          <div class="card delta-plus">
             <span>Delta ++</span>
             <strong>${dMais1.toFixed(2)}</strong>
           </div>
-          <div class="card">
+          <div class="card delta-minus">
             <span>Delta -</span>
             <strong>${dMenos05.toFixed(2)}</strong>
           </div>
-          <div class="card">
+          <div class="card delta-minus">
             <span>Delta --</span>
             <strong>${dMenos1.toFixed(2)}</strong>
           </div>
