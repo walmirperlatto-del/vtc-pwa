@@ -283,16 +283,19 @@
   <script>
   document.addEventListener("DOMContentLoaded", function () {
 
-    function isSafari() {
-      return /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+    function isRealIOS() {
+      return (
+        /iPad|iPhone|iPod/.test(navigator.platform) ||
+        (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1)
+      );
     }
 
     const isStandalone =
       window.navigator.standalone === true ||
       window.matchMedia('(display-mode: standalone)').matches;
 
-    // Somente Safari fora do modo app
-    if (isSafari() && !isStandalone) {
+    // MOSTRAR SOMENTE EM iOS REAL e fora do modo app
+    if (isRealIOS() && !isStandalone) {
 
       document.body.innerHTML = `
         <div style="
