@@ -283,12 +283,16 @@
   <script>
     document.addEventListener("DOMContentLoaded", function () {
 
-      const isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
+      const ua = navigator.userAgent || navigator.vendor || window.opera;
+
+      const isAndroid = /android/i.test(ua);
+      const isIOS = /iphone|ipad|ipod/i.test(ua) && !isAndroid;
 
       const isStandalone =
         window.navigator.standalone === true ||
         window.matchMedia('(display-mode: standalone)').matches;
 
+      // Somente iPhone Safari fora do modo app
       if (isIOS && !isStandalone) {
 
         document.body.innerHTML = `
