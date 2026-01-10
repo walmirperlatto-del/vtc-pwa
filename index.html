@@ -283,15 +283,12 @@
   <script>
     document.addEventListener("DOMContentLoaded", function () {
 
-      const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent)
-        || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+      const isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
 
       const isStandalone =
         window.navigator.standalone === true ||
         window.matchMedia('(display-mode: standalone)').matches;
 
-      // Mostrar tela de instalação SOMENTE se:
-      // for iOS + NÃO estiver em modo app
       if (isIOS && !isStandalone) {
 
         document.body.innerHTML = `
