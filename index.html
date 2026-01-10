@@ -283,19 +283,17 @@
   <script>
   document.addEventListener("DOMContentLoaded", function () {
 
-    function isRealIOS() {
-      return (
-        /iPad|iPhone|iPod/.test(navigator.platform) ||
-        (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1)
-      );
-    }
+    const ua = navigator.userAgent || navigator.vendor || window.opera;
+
+    const isIOS = /iPhone|iPad|iPod/i.test(ua);
+    const isAndroid = /Android/i.test(ua);
 
     const isStandalone =
       window.navigator.standalone === true ||
       window.matchMedia('(display-mode: standalone)').matches;
 
-    // MOSTRAR SOMENTE EM iOS REAL e fora do modo app
-    if (isRealIOS() && !isStandalone) {
+    // Mostrar SOMENTE no iOS real, fora do modo app, e NUNCA no Android
+    if (isIOS && !isAndroid && !isStandalone) {
 
       document.body.innerHTML = `
         <div style="
