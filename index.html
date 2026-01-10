@@ -281,45 +281,44 @@
   </script>
 
   <script>
-    document.addEventListener("DOMContentLoaded", function () {
+  document.addEventListener("DOMContentLoaded", function () {
 
-      const ua = navigator.userAgent || navigator.vendor || window.opera;
+    function isSafari() {
+      return /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+    }
 
-      const isAndroid = /android/i.test(ua);
-      const isIOS = /iphone|ipad|ipod/i.test(ua) && !isAndroid;
+    const isStandalone =
+      window.navigator.standalone === true ||
+      window.matchMedia('(display-mode: standalone)').matches;
 
-      const isStandalone =
-        window.navigator.standalone === true ||
-        window.matchMedia('(display-mode: standalone)').matches;
+    // Somente Safari fora do modo app
+    if (isSafari() && !isStandalone) {
 
-      // Somente iPhone Safari fora do modo app
-      if (isIOS && !isStandalone) {
-
-        document.body.innerHTML = `
-          <div style="
-            min-height:100vh;
-            display:flex;
-            flex-direction:column;
-            align-items:center;
-            justify-content:center;
-            background:#0b0b0b;
-            color:#fff;
-            text-align:center;
-            padding:20px;
-            font-family:Arial, Helvetica, sans-serif;
-          ">
-            <h2 style="margin-bottom:12px;">Instale este app no iPhone</h2>
-            <p style="font-size:14px; color:#aaa; max-width:320px;">
-              Para uma melhor experiência, adicione este app à sua Tela de Início.
-            </p>
-            <p style="font-size:14px; margin-top:12px;">
-              Toque em <strong>Compartilhar</strong><br>
-              e depois em<br>
-              <strong>“Adicionar à Tela de Início”</strong>
-            </p>
-          </div>
-        `;
-      }
+      document.body.innerHTML = `
+        <div style="
+          min-height:100vh;
+          display:flex;
+          flex-direction:column;
+          align-items:center;
+          justify-content:center;
+          background:#0b0b0b;
+          color:#fff;
+          text-align:center;
+          padding:20px;
+          font-family:Arial, Helvetica, sans-serif;
+        ">
+          <h2 style="margin-bottom:12px;">Instale este app no iPhone</h2>
+          <p style="font-size:14px; color:#aaa; max-width:320px;">
+            Para uma melhor experiência, adicione este app à sua Tela de Início.
+          </p>
+          <p style="font-size:14px; margin-top:12px;">
+            Toque em <strong>Compartilhar</strong><br>
+            e depois em<br>
+            <strong>“Adicionar à Tela de Início”</strong>
+          </p>
+        </div>
+      `;
+    }
 
   });
   </script>
