@@ -286,15 +286,16 @@
     const ua = navigator.userAgent || "";
 
     const isIOS = /iPhone|iPad|iPod/i.test(ua);
-    const isAndroid = /Android/i.test(ua);
 
-    const isStandalone =
+    // Detecção mais confiável de modo app no iOS
+    const isInStandaloneMode =
       window.navigator.standalone === true ||
-      window.matchMedia('(display-mode: standalone)').matches;
+      window.matchMedia('(display-mode: standalone)').matches ||
+      document.referrer.startsWith('ios-app://');
 
     const banner = document.getElementById("ios-install-banner");
 
-    if (isIOS && !isAndroid && !isStandalone) {
+    if (isIOS && !isInStandaloneMode) {
       banner.style.display = "flex";
     } else {
       banner.style.display = "none";
@@ -302,6 +303,7 @@
 
   });
   </script>
+
   
 </body>
 </html>
